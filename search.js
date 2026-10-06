@@ -28,6 +28,7 @@
       const head=hd.textContent.replace('▾','').trim(), b=body.trim();
       const e={sec:sec.id,hid:hd.id,isH1:hd.tagName==='H1',page:pageTitle,head:head,body:b};
       e.headL=norm(head); e.pageL=norm(pageTitle); e.bodyL=norm(b);
+      e.headNS=e.headL.replace(/ /g,''); e.bodyNS=e.bodyL.replace(/ /g,''); e.pageNS=e.pageL.replace(/ /g,'');
       e.headCho=chosung(head).replace(/ /g,''); e.bodyCho=chosung(b).replace(/ /g,'');
       entries.push(e);
     });
@@ -41,19 +42,32 @@
     const re=new RegExp('('+[...new Set(nonCho)].sort((a,b)=>b.length-a.length).map(escR).join('|')+')','gi');
     return out.replace(re,'<mark>$1</mark>');
   }
-  function snip(b,nonCho){const bl=b.toLowerCase();let idx=-1;for(const tk of nonCho){const j=bl.indexOf(tk);if(j>=0&&(idx<0||j<idx))idx=j;}if(idx<0)return '';const s=Math.max(0,idx-26);return (s>0?'…':'')+b.slice(s,idx+70).trim()+'…';}
+  // 공백을 건너뛰며 매치 → '플래너조회'로 '플래너 조회'를 찾음
+  function looseIndex(hay,needle){
+    const n=needle.replace(/ /g,''); if(!n)return -1;
+    let k=0,start=-1;
+    for(let i=0;i<hay.length;i++){
+      const c=hay[i];
+      if(c===' '){ if(k>0)continue; else continue; }
+      if(c===n[k]){ if(k===0)start=i; k++; if(k===n.length)return start; }
+      else if(k>0){ i=start; k=0; start=-1; }
+    }
+    return -1;
+  }
+  function snip(b,nonCho){const bl=b.toLowerCase();let idx=-1;for(const tk of nonCho){const j=bl.indexOf(tk)>=0?bl.indexOf(tk):looseIndex(bl,tk);if(j>=0&&(idx<0||j<idx))idx=j;}if(idx<0)return '';const s=Math.max(0,idx-26);return (s>0?'…':'')+b.slice(s,idx+70).trim()+'…';}
 
   function score(e,tokens,joined,isCho,cq){
     let s=0;
     const hl=e.headL,bl=e.bodyL,pl=e.pageL;
-    if(hl===joined) s+=1000;
-    else if(hl.startsWith(joined)) s+=650;
-    else if(hl.includes(joined)) s+=430;
+    const jns=joined.replace(/ /g,'');
+    if(hl===joined||e.headNS===jns) s+=1000;
+    else if(hl.startsWith(joined)||e.headNS.startsWith(jns)) s+=650;
+    else if(hl.includes(joined)||e.headNS.includes(jns)) s+=430;
     let allTok=true;
     for(const tok of tokens){
       const terms=expand(tok);
-      const inHead=terms.some(t=>hl.includes(t));
-      const inBody=terms.some(t=>bl.includes(t))||pl.includes(tok);
+      const inHead=terms.some(t=>hl.includes(t)||e.headNS.includes(t.replace(/ /g,'')));
+      const inBody=terms.some(t=>bl.includes(t)||e.bodyNS.includes(t.replace(/ /g,'')))||pl.includes(tok)||e.pageNS.includes(tok.replace(/ /g,''));
       if(inHead) s+=130; else if(inBody) s+=48; else allTok=false;
     }
     let choHit=false;
