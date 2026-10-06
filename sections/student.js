@@ -158,9 +158,9 @@ window.SECTIONS["student"] = `
       <p class="tip"><span class="lbl">참고</span><span>마감되면 <b>미달성 항목만, 한 번만</b> 고칠 수 있습니다. 이미 달성 처리된 항목은 되돌릴 수 없습니다.</span></p>
       <h3 class="h3">마감 놓친 날 확인하기</h3>
       <p>마감을 놓친 날이 있으면 학생 상세 아래에 알럿이 늘 떠 있습니다.</p>
-      <div class="shot bare"><img decoding="async" width="1370" height="228" src="assets/student/feedback_alert.png" alt="마감 누락 일일 피드백 3일 — 확인하기"></div>
+      <div class="shot bare"><img decoding="async" width="1572" height="1022" src="assets/student/feedback_alert.png" alt="마감 누락 일일 피드백 3일 — 확인하기"></div>
       <p><b>확인하기</b>를 누르면 밀린 날짜와 경과일 목록이 뜨고, 날짜를 누르면 그 날 일일 피드백으로 이동합니다.</p>
-      <div class="shot bare"><img decoding="async" width="1000" height="704" src="assets/student/feedback_list.png" alt="마감 누락 일일 피드백 목록 — 날짜·경과일"></div>
+      <div class="shot bare"><img decoding="async" width="1572" height="1022" src="assets/student/feedback_list.png" alt="마감 누락 일일 피드백 목록 — 날짜·경과일"></div>
       <p class="tip"><span class="lbl">참고</span><span>매니저가 여기서 할 수 있는 건 놓친 날을 확인하고 그 날로 이동하는 것뿐입니다. 이동한 뒤 <b>미달성 항목 수정</b>과 <b>지연달성 승인</b>은 매니저가 할 수 있지만, 자동 마감된 날의 <b>최종 마감 확정과 송금</b>은 <b>관리자 화면</b>에서만 처리됩니다.</span></p>
       <h3 class="h3">지연달성 승인하기</h3>
       <p>마감이 끝난 날에도, 학생이 못 했던 항목을 나중에 해내고 인증을 올리는 경우가 있습니다. 이런 항목은 <b>승인 요청</b>으로 남고, 매니저가 인증 확인 패널에서 <b>달성 · 지연달성 · 미달성</b> 중 하나로 정합니다. 지연달성은 제때는 아니지만 달성으로 인정해 주는 것으로, 승인하면 그 항목의 용돈이 뒤늦게 정산됩니다.</p>
